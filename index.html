@@ -3,69 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IDOM: Infraestructura de Redes Mixtas</title>
-    <!-- Tailwind CSS para el diseño -->
+    <title>IDOM: Infraestructura SMR2</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons para los iconos -->
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Fuentes Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Segoe UI', system-ui, sans-serif; }
-        .slide-enter { animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        /* Personalización de la barra de desplazamiento */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background-color: #020617;
+            overflow: hidden;
+        }
+        
+        /* Fondo Animado Sutil */
+        .ambient-light {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.15), transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.05), transparent 30%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Animaciones de Entrada */
+        .slide-enter { 
+            animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        
+        @keyframes slideIn { 
+            from { opacity: 0; transform: translateY(20px) scale(0.98); } 
+            to { opacity: 1; transform: translateY(0) scale(1); } 
+        }
+
+        /* Efecto Cristal (Glassmorphism) */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(30, 41, 59, 0.7);
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Texto Gradiente */
+        .text-gradient {
+            background: linear-gradient(to right, #60a5fa, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Terminal Style */
+        .terminal-text {
+            font-family: 'JetBrains Mono', monospace;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 h-screen flex flex-col overflow-hidden selection:bg-blue-500 selection:text-white">
+<body class="text-slate-200 h-screen flex flex-col selection:bg-blue-500 selection:text-white">
+
+    <!-- Fondo Ambiental -->
+    <div class="ambient-light"></div>
 
     <!-- Barra de Progreso Superior -->
-    <div class="h-1.5 bg-slate-900 w-full">
-        <div id="progress-bar" class="h-full bg-gradient-to-r from-blue-600 to-cyan-400 transition-all duration-500 ease-out" style="width: 10%"></div>
+    <div class="h-1 bg-slate-900 w-full z-20">
+        <div id="progress-bar" class="h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400 transition-all duration-700 ease-out shadow-[0_0_10px_rgba(59,130,246,0.5)]" style="width: 0%"></div>
     </div>
 
     <!-- Área Principal -->
-    <div class="flex-1 flex flex-col items-center justify-center p-8 relative">
-        <!-- Marca de Agua IDOM -->
-        <div class="absolute top-10 right-10 text-slate-800 font-black text-6xl opacity-20 pointer-events-none select-none">IDOM</div>
+    <div class="flex-1 flex flex-col items-center justify-center p-6 relative z-10">
+        <!-- Marca de Agua -->
+        <div class="absolute top-8 right-12 text-white font-black text-8xl opacity-[0.03] pointer-events-none select-none tracking-tighter">IDOM</div>
         
         <!-- Contenedor del Slide -->
-        <div id="slide-content" class="w-full max-w-6xl slide-enter">
-            <!-- El contenido se inyectará aquí con JS -->
+        <div id="slide-content" class="w-full max-w-7xl slide-enter px-4">
+            <!-- Inyección JS -->
         </div>
     </div>
 
     <!-- Navegación Inferior -->
-    <div class="h-20 bg-slate-950 border-t border-slate-900 flex justify-between items-center px-8 z-10">
-        <div class="flex items-center gap-3 opacity-60">
-            <div class="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-[10px] font-bold text-white shadow-lg shadow-blue-900/50">I</div>
-            <span class="text-slate-400 text-xs font-mono uppercase tracking-widest">SMR2 - Sistemas en Red</span>
+    <div class="h-24 glass-panel border-t-0 border-b-0 border-x-0 w-full flex justify-between items-center px-10 z-20">
+        <div class="flex items-center gap-4 opacity-70">
+            <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center text-xs font-bold text-white shadow-lg">I</div>
+            <div class="flex flex-col">
+                <span class="text-slate-200 text-xs font-bold uppercase tracking-[0.2em]">SMR2 - Sistemas en Red</span>
+                <span class="text-slate-500 text-[10px]">Pixel & Print Solutions / IDOM</span>
+            </div>
         </div>
         
-        <div class="flex gap-6 items-center">
-            <span class="text-slate-500 text-sm font-mono"><span id="current-slide-num">1</span> <span class="text-slate-700">/</span> <span id="total-slides">10</span></span>
-            <div class="flex gap-2">
-                <button onclick="prevSlide()" id="btn-prev" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:opacity-20 disabled:cursor-not-allowed border border-slate-800 transition-all hover:border-blue-500/30 text-white">
-                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        <div class="flex gap-8 items-center">
+            <span class="text-slate-400 text-sm font-mono bg-slate-900/50 px-3 py-1 rounded-full border border-slate-800">
+                <span id="current-slide-num" class="text-white font-bold">1</span> / <span id="total-slides">11</span>
+            </span>
+            <div class="flex gap-3">
+                <button onclick="prevSlide()" id="btn-prev" class="group p-3 rounded-xl bg-slate-800/50 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed border border-slate-700 transition-all text-white">
+                    <i data-lucide="arrow-left" class="w-5 h-5 group-hover:-translate-x-1 transition-transform"></i>
                 </button>
-                <button onclick="nextSlide()" id="btn-next" class="p-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-20 disabled:cursor-not-allowed text-white shadow-lg shadow-blue-900/20 transition-all hover:translate-x-0.5">
-                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                <button onclick="nextSlide()" id="btn-next" class="group p-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-30 disabled:cursor-not-allowed text-white shadow-lg shadow-blue-900/30 transition-all border border-blue-500">
+                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
                 </button>
             </div>
         </div>
     </div>
 
     <script>
-        // DATOS DE LAS DIAPOSITIVAS
+        // --- DATOS DE LAS DIAPOSITIVAS ---
         const slides = [
             // 1. PORTADA
             {
                 type: 'title',
                 title: "IDOM: Infraestructura",
-                subtitle: "Gestión de Periféricos y Almacenamiento en Redes Mixtas",
-                content: "Caso de Estudio: Interoperabilidad y Seguridad en Entornos de Ingeniería.",
+                subtitle: "Gestión Avanzada de Periféricos y Almacenamiento en Redes Mixtas",
+                content: "Caso de Estudio: Interoperabilidad, Seguridad y Alto Rendimiento.",
                 author: "Juan P. Juárez / Samuel Quintero | Tema 5",
                 date: "10 de Febrero, 2026",
                 icon: "building-2"
@@ -73,11 +136,11 @@
             // 2. CONTEXTO
             {
                 type: 'content',
-                title: "1. Introducción: Ecosistema IDOM",
+                title: "1. Introducción: Ecosistema",
                 subtitle: "¿Por qué una Red Mixta?",
                 icon: "network",
                 items: [
-                    { label: "El Desafío", text: "Coexistencia crítica de Windows (Ingeniería/CAD), macOS (Arquitectura/BIM) y Linux (Servidores de Cálculo)." },
+                    { label: "El Desafío", text: "Coexistencia crítica de <b class='text-blue-400'>Windows</b> (Ingeniería/CAD), <b class='text-purple-400'>macOS</b> (Arquitectura/BIM) y <b class='text-orange-400'>Linux</b> (Servidores)." },
                     { label: "El Objetivo", text: "Centralizar plotters A0 y almacenamiento masivo (NAS) bajo un dominio seguro y transparente." },
                     { label: "La Solución", text: "Infraestructura basada en estándares abiertos (SMB/CUPS) para garantizar interoperabilidad total." }
                 ]
@@ -91,19 +154,19 @@
                 items: [
                     { label: "SMB / Samba", text: "El 'traductor universal'. Permite que Linux comparta archivos de forma nativa con clientes Windows y Mac." },
                     { label: "CUPS (IPP)", text: "Common Unix Printing System. Gestiona colas de impresión universales usando el protocolo IPP." },
-                    { label: "Seguridad", text: "Uso de ACLs (Listas de Control de Acceso) para mapear permisos NTFS y Unix." }
+                    { label: "Seguridad ACL", text: "Listas de Control de Acceso Posix para mapear permisos complejos entre sistemas NTFS y Unix." }
                 ]
             },
             // 4. ALMACENAMIENTO
             {
                 type: 'details',
-                title: "3. Almacenamiento de Alto Rendimiento",
-                subtitle: "NAS + RAID 0 para Diseño Gráfico",
+                title: "3. Almacenamiento NAS",
+                subtitle: "Arquitectura RAID 0 para Diseño Gráfico",
                 icon: "hard-drive",
                 items: [
-                    { title: "Arquitectura RAID 0", desc: "Unión de 2 discos de 50GB = 100GB. Priorizamos velocidad de escritura para planos pesados." },
-                    { title: "Gestión con mdadm", desc: "Software de Linux para crear arrays de discos virtuales (/dev/md0)." },
-                    { title: "Sistema de Archivos", desc: "Formato EXT4 montado en /compartido para acceso rápido y transaccional." }
+                    { title: "Arquitectura RAID 0", desc: "Unión de 2 discos de 50GB = <span class='text-emerald-400 font-bold'>100GB</span>. Priorizamos velocidad de escritura para planos pesados (Stripping)." },
+                    { title: "Gestión con mdadm", desc: "Software de Linux para crear arrays de discos virtuales (/dev/md0) gestionados por software." },
+                    { title: "Sistema de Archivos", desc: "Formato EXT4 montado en <code class='bg-slate-800 px-1 rounded text-sm'>/compartido</code> para acceso rápido y transaccional." }
                 ]
             },
             // 5. USUARIOS (TABLA)
@@ -122,13 +185,13 @@
             // 6. IMPRESIÓN
             {
                 type: 'content',
-                title: "5. Gestión de Impresión (Plotters)",
+                title: "5. Gestión de Impresión",
                 subtitle: "Priorización Inteligente de Colas",
                 icon: "printer",
                 items: [
                     { label: "El Problema", text: "Planos urgentes de dirección atascados detrás de borradores de alumnos." },
-                    { label: "La Solución", text: "Configuración de 'Job Priority' en CUPS. Los Admins saltan la cola automáticamente." },
-                    { label: "Drivers", text: "Uso de drivers genéricos PostScript para asegurar consistencia de color entre Mac y PC." }
+                    { label: "La Solución", text: "Configuración de <b class='text-white'>Job Priority</b> en CUPS. Los Admins saltan la cola automáticamente." },
+                    { label: "Drivers", text: "Uso de drivers genéricos PostScript/PCL6 para asegurar consistencia de color entre Mac y PC." }
                 ]
             },
             // 7. DEMO TÉCNICA
@@ -138,22 +201,22 @@
                 subtitle: "Despliegue en Ubuntu Server",
                 icon: "terminal",
                 steps: [
-                    "RAID 0: sudo mdadm --create /dev/md0 --level=0 --raid-devices=2 ...",
-                    "Samba: Configuración de 'valid users = @aula1' en /etc/samba/smb.conf",
-                    "Cuotas: sudo setquota -u user1 7.5G 8G 0 0 /mnt/raid",
-                    "Impresión: lpadmin -p PlotterHP -o job-priority-default=50"
+                    { cmd: "sudo mdadm --create /dev/md0 --level=0 --raid-devices=2 ...", desc: "Creación del array RAID 0" },
+                    { cmd: "valid users = @aula1\ncreate mask = 0770", desc: "Configuración en /etc/samba/smb.conf" },
+                    { cmd: "sudo setquota -u user1 7.5G 8G 0 0 /mnt/raid", desc: "Establecimiento de cuotas duras y suaves" },
+                    { cmd: "lpadmin -p PlotterHP -o job-priority-default=50", desc: "Definición de prioridad por defecto en CUPS" }
                 ]
             },
             // 8. MANTENIMIENTO
             {
                 type: 'details',
-                title: "6. Mantenimiento y Supervisión",
-                subtitle: "Estrategias de Monitorización Activa",
+                title: "6. Mantenimiento",
+                subtitle: "Estrategias de Supervisión Activa",
                 icon: "activity",
                 items: [
-                    { title: "Monitorización de Logs", desc: "Revisión constante de /var/log/samba/log.smbd para detectar intentos de acceso no autorizados." },
-                    { title: "Integridad del RAID", desc: "Script diario 'mdadm --detail --scan' para verificar la salud de los discos físicos." },
-                    { title: "Actualizaciones", desc: "Implementación de 'unattended-upgrades' para parches de seguridad críticos en el servidor." }
+                    { title: "Monitorización de Logs", desc: "Revisión constante de <code class='bg-slate-800 px-1 rounded text-sm'>/var/log/samba/log.smbd</code> para detectar accesos no autorizados." },
+                    { title: "Integridad del RAID", desc: "Script diario <code class='bg-slate-800 px-1 rounded text-sm'>mdadm --detail --scan</code> para verificar la salud de los discos físicos." },
+                    { title: "Actualizaciones", desc: "Implementación de <i>unattended-upgrades</i> para parches de seguridad críticos." }
                 ]
             },
             // 9. DESAFÍOS
@@ -161,29 +224,42 @@
                 type: 'details',
                 title: "7. Desafíos y Soluciones",
                 subtitle: "Resolución de Problemas Reales",
-                icon: "alert-triangle",
+                icon: "triangle-alert",
                 items: [
-                    { title: "Incompatibilidad de Drivers", desc: "Solución: Estandarización a PCL6/PostScript en el servidor." },
-                    { title: "Permisos Cruzados", desc: "Solución: Forzado de máscaras (create mask 0770) en Samba." },
-                    { title: "Autenticación", desc: "Futuro: Integración completa con LDAP/Active Directory." }
+                    { title: "Incompatibilidad de Drivers", desc: "Solución: Estandarización a lenguajes universales (PCL6/PostScript) en el servidor." },
+                    { title: "Permisos Cruzados", desc: "Solución: Forzado de máscaras de creación (create mask 0770) en Samba." },
+                    { title: "Autenticación Dispersa", desc: "Futuro: Integración completa con LDAP/Active Directory para Single Sign-On." }
                 ]
             },
             // 10. CONCLUSIONES
             {
                 type: 'summary',
                 title: "8. Conclusiones",
-                subtitle: "Impacto en IDOM",
-                icon: "book-open",
+                subtitle: "Impacto del Proyecto en IDOM",
+                icon: "check-circle-2",
                 items: [
                     "Eficiencia: La centralización reduce costes de hardware y mantenimiento.",
                     "Rendimiento: RAID 0 es vital para el flujo de trabajo CAD/BIM.",
                     "Control: Las cuotas y prioridades garantizan un uso justo de los recursos.",
                     "Seguridad: La red mixta es transparente pero segura gracias a las ACLs."
-                ],
-                references: "Fuentes: Documentación Samba.org, Manuales Ubuntu, Tanenbaum."
+                ]
+            },
+            // 11. BIBLIOGRAFÍA (NUEVA)
+            {
+                type: 'biblio',
+                title: "Bibliografía y Referencias",
+                subtitle: "Fuentes de Investigación Técnica",
+                icon: "book-open",
+                sources: [
+                    { title: "Redes de Computadoras (5ª Ed.)", author: "Andrew S. Tanenbaum", type: "Libro Académico" },
+                    { title: "Samba Documentation Wiki", author: "Samba.org Official Docs", type: "Documentación Técnica" },
+                    { title: "Internet Printing Protocol (IPP) Specifications", author: "IEEE / PWG Standards", type: "Estándar Internacional" },
+                    { title: "Ubuntu Server Guide - Network File Services", author: "Canonical Ltd.", type: "Manual de Administración" }
+                ]
             }
         ];
 
+        // --- LÓGICA DE RENDERIZADO ---
         let currentSlide = 0;
         const totalSlides = slides.length;
         const container = document.getElementById('slide-content');
@@ -197,62 +273,71 @@
             const slide = slides[currentSlide];
             let html = '';
 
-            // ANIMATION RESET
+            // Reiniciar animación
             container.classList.remove('slide-enter');
-            void container.offsetWidth; // Trigger reflow
+            void container.offsetWidth; 
             container.classList.add('slide-enter');
 
-            // HEADER COMMON
+            // Header Común
             const header = slide.type !== 'title' ? `
-                <div class="flex items-center gap-6 border-b border-slate-800 pb-6 mb-10">
-                    <div class="p-4 bg-blue-600/10 rounded-2xl border border-blue-500/20 text-blue-400 shadow-lg shadow-blue-900/20">
-                        <i data-lucide="${slide.icon}" class="w-10 h-10"></i>
+                <div class="flex items-center gap-6 border-b border-slate-700/50 pb-6 mb-10">
+                    <div class="p-4 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl border border-blue-500/20 text-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.15)]">
+                        <i data-lucide="${slide.icon}" class="w-8 h-8"></i>
                     </div>
                     <div>
-                        <h2 class="text-4xl font-bold text-white">${slide.title}</h2>
-                        <p class="text-blue-400 text-lg font-medium mt-1">${slide.subtitle}</p>
+                        <h2 class="text-4xl font-bold text-white tracking-tight">${slide.title}</h2>
+                        <p class="text-slate-400 text-lg font-light mt-1">${slide.subtitle}</p>
                     </div>
                 </div>
             ` : '';
 
-            // BODY CONTENT
+            // Renderizado por Tipo
             if (slide.type === 'title') {
                 html = `
-                    <div class="text-center space-y-8 flex flex-col items-center">
-                        <div class="p-6 bg-blue-900/20 rounded-3xl border border-blue-500/20 shadow-[0_0_50px_rgba(59,130,246,0.15)]">
-                            <i data-lucide="${slide.icon}" class="w-20 h-20 text-blue-500"></i>
+                    <div class="text-center space-y-10 flex flex-col items-center py-10">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-blue-500 blur-[60px] opacity-20 rounded-full"></div>
+                            <div class="relative p-8 glass-panel rounded-[2rem] border border-slate-700 shadow-2xl">
+                                <i data-lucide="${slide.icon}" class="w-24 h-24 text-blue-500"></i>
+                            </div>
                         </div>
-                        <h1 class="text-6xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400">
-                            ${slide.title}
-                        </h1>
-                        <p class="text-3xl text-blue-400 font-light">${slide.subtitle}</p>
-                        <div class="h-px w-32 bg-slate-800 my-8"></div>
-                        <p class="text-slate-400 text-xl max-w-2xl leading-relaxed">${slide.content}</p>
-                        <div class="mt-12 p-4 bg-slate-900/50 rounded-xl border border-slate-800 text-sm text-slate-500">
-                            <p class="font-semibold text-slate-300 mb-1">${slide.author}</p>
-                            <p>${slide.date}</p>
+                        
+                        <div class="space-y-4 max-w-4xl">
+                            <h1 class="text-7xl font-extrabold tracking-tight leading-tight">
+                                <span class="text-gradient">${slide.title.split(':')[0]}</span><br>
+                                <span class="text-white">${slide.title.split(':')[1] || ''}</span>
+                            </h1>
+                            <p class="text-2xl text-slate-400 font-light">${slide.subtitle}</p>
+                        </div>
+
+                        <div class="h-px w-24 bg-gradient-to-r from-transparent via-slate-600 to-transparent"></div>
+                        
+                        <div class="bg-slate-900/40 px-8 py-4 rounded-full border border-slate-800 text-slate-400 text-sm font-mono tracking-wide">
+                            ${slide.author} • ${slide.date}
                         </div>
                     </div>
                 `;
-            } else if (slide.type === 'content') {
+            } 
+            else if (slide.type === 'content') {
                 html = header + `<div class="grid grid-cols-1 md:grid-cols-3 gap-6">`;
                 slide.items.forEach(item => {
                     html += `
-                        <div class="group bg-slate-900/60 p-8 rounded-2xl border border-slate-800 hover:border-blue-500/40 hover:bg-slate-800/80 transition-all duration-300">
+                        <div class="glass-card p-8 rounded-2xl flex flex-col h-full">
                             <div class="mb-4">
-                                <span class="text-xs font-bold tracking-widest text-blue-500 uppercase bg-blue-500/10 px-2 py-1 rounded">${item.label}</span>
+                                <span class="text-[10px] font-bold tracking-[0.2em] text-blue-400 uppercase bg-blue-500/10 px-3 py-1.5 rounded-full border border-blue-500/20">${item.label}</span>
                             </div>
-                            <p class="text-slate-300 text-lg leading-relaxed group-hover:text-white transition-colors">${item.text}</p>
+                            <p class="text-slate-300 text-lg leading-relaxed">${item.text}</p>
                         </div>
                     `;
                 });
                 html += `</div>`;
-            } else if (slide.type === 'details') {
+            } 
+            else if (slide.type === 'details') {
                 html = header + `<div class="grid gap-4">`;
                 slide.items.forEach((item, i) => {
                     html += `
-                        <div class="flex gap-5 items-center p-6 bg-slate-900/40 rounded-2xl border border-slate-800 hover:border-blue-500/30 transition-all">
-                            <div class="h-10 w-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 text-blue-400 font-bold shrink-0">${i + 1}</div>
+                        <div class="glass-card p-6 rounded-2xl flex items-center gap-6">
+                            <div class="h-12 w-12 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 text-white font-bold shrink-0 shadow-inner">${i + 1}</div>
                             <div>
                                 <h4 class="text-xl font-bold text-white mb-1">${item.title}</h4>
                                 <p class="text-slate-400">${item.desc}</p>
@@ -261,50 +346,80 @@
                     `;
                 });
                 html += `</div>`;
-            } else if (slide.type === 'table') {
+            }
+            else if (slide.type === 'table') {
                 html = header + `
-                    <div class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/30 shadow-2xl">
-                        <table class="w-full text-left border-collapse">
+                    <div class="glass-panel rounded-2xl overflow-hidden">
+                        <table class="w-full text-left">
                             <thead>
-                                <tr class="bg-slate-800/50">
-                                    ${slide.headers.map(h => `<th class="p-5 text-xs font-bold text-blue-400 uppercase tracking-wider">${h}</th>`).join('')}
+                                <tr class="bg-slate-800/50 border-b border-slate-700">
+                                    ${slide.headers.map(h => `<th class="p-6 text-xs font-bold text-blue-400 uppercase tracking-widest">${h}</th>`).join('')}
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-800">
+                            <tbody class="divide-y divide-slate-800/50">
                                 ${slide.rows.map(row => `
                                     <tr class="hover:bg-blue-600/5 transition-colors">
-                                        ${row.map((cell, j) => `<td class="p-5 text-slate-300 font-medium ${j === 3 ? 'text-emerald-400' : ''}">${cell}</td>`).join('')}
+                                        ${row.map((cell, j) => `<td class="p-6 text-slate-300 font-medium ${j === 3 ? 'text-emerald-400 font-bold' : ''}">${cell}</td>`).join('')}
                                     </tr>
                                 `).join('')}
                             </tbody>
                         </table>
                     </div>
                 `;
-            } else if (slide.type === 'steps') {
-                html = header + `<div class="grid grid-cols-1 gap-4">`;
+            }
+            else if (slide.type === 'steps') {
+                html = header + `<div class="space-y-4">`;
                 slide.steps.forEach(step => {
                     html += `
-                        <div class="font-mono text-sm p-4 bg-black/40 rounded-xl border-l-4 border-emerald-500 text-slate-300 flex items-center gap-3 shadow-inner">
-                            <span class="text-emerald-500 select-none">$</span>
-                            <span>${step}</span>
+                        <div class="glass-card p-5 rounded-xl border-l-4 border-l-emerald-500 flex flex-col gap-2">
+                            <div class="flex items-center gap-3 font-mono text-sm text-emerald-300 bg-black/30 p-3 rounded-lg w-full">
+                                <span class="select-none opacity-50">$</span>
+                                <span class="break-all">${step.cmd}</span>
+                            </div>
+                            <span class="text-slate-400 text-sm ml-2 flex items-center gap-2">
+                                <i data-lucide="corner-down-right" class="w-3 h-3"></i> ${step.desc}
+                            </span>
                         </div>
                     `;
                 });
                 html += `</div>`;
-            } else if (slide.type === 'summary') {
+            }
+            else if (slide.type === 'summary') {
                 html = header + `
-                    <div class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            ${slide.items.map(item => `
-                                <div class="flex gap-3 p-4 bg-blue-900/10 rounded-xl border border-blue-500/10">
-                                    <i data-lucide="check-circle-2" class="text-blue-500 flex-shrink-0 w-6 h-6"></i>
-                                    <span class="text-slate-200">${item}</span>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        ${slide.items.map(item => `
+                            <div class="glass-card p-6 rounded-2xl flex gap-4 items-start">
+                                <div class="bg-emerald-500/10 p-2 rounded-lg text-emerald-400 mt-1">
+                                    <i data-lucide="check" class="w-5 h-5"></i>
                                 </div>
-                            `).join('')}
-                        </div>
-                        <div class="pt-6 border-t border-slate-800 text-center">
-                            <p class="text-slate-500 text-sm italic">${slide.references}</p>
-                        </div>
+                                <span class="text-slate-200 text-lg leading-relaxed">${item}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            else if (slide.type === 'biblio') {
+                html = header + `
+                    <div class="grid gap-4">
+                        ${slide.sources.map(src => `
+                            <div class="glass-card p-6 rounded-xl flex justify-between items-center group">
+                                <div class="flex items-center gap-4">
+                                    <div class="p-3 bg-slate-800 rounded-lg text-slate-400 group-hover:text-blue-400 group-hover:bg-blue-500/10 transition-colors">
+                                        <i data-lucide="book" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">${src.title}</h4>
+                                        <p class="text-slate-500 text-sm">${src.author}</p>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-mono uppercase text-slate-600 border border-slate-700 px-2 py-1 rounded group-hover:border-blue-500/30 group-hover:text-blue-500 transition-colors">
+                                    ${src.type}
+                                </span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="mt-8 text-center">
+                        <p class="text-slate-600 text-sm italic">Investigación realizada conforme a los estándares de la actividad 9.1 SMR2</p>
                     </div>
                 `;
             }
@@ -314,21 +429,23 @@
             updateUI();
         }
 
+        // --- INTERFAZ Y EVENTOS ---
         function updateUI() {
-            // Update Progress
+            // Barra de progreso
             const progress = ((currentSlide + 1) / totalSlides) * 100;
             progressBar.style.width = `${progress}%`;
 
-            // Update Numbers
+            // Números
             currentNum.innerText = currentSlide + 1;
             totalNum.innerText = totalSlides;
 
-            // Update Buttons
+            // Estado Botones
             btnPrev.disabled = currentSlide === 0;
             btnNext.disabled = currentSlide === totalSlides - 1;
             
-            btnPrev.style.opacity = currentSlide === 0 ? "0.2" : "1";
-            btnNext.style.opacity = currentSlide === totalSlides - 1 ? "0.2" : "1";
+            // Opacidad visual botones
+            btnPrev.style.opacity = currentSlide === 0 ? "0.3" : "1";
+            btnNext.style.opacity = currentSlide === totalSlides - 1 ? "0.3" : "1";
         }
 
         function nextSlide() {
@@ -345,12 +462,12 @@
             }
         }
 
-        // Init
+        // Iniciar
         renderSlide();
 
-        // Keyboard support
+        // Control por Teclado
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
             if (e.key === 'ArrowLeft') prevSlide();
         });
 
